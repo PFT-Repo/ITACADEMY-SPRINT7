@@ -1,0 +1,33 @@
+<div class="card mx-auto mt-5" style="width: 50rem;">
+    <div class="card-body">
+        <h5 class="card-title">¿ Que quieres hacer ?</h5>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="500" id="paginaWebCheck"
+                (click)="checker('paginaWebCheck')">
+            <label class="form-check-label" for="flexCheckDefault">
+                Una pàgina web (500 &euro;)
+            </label>
+        </div>
+        <div *ngIf="activePanel == true">
+            <app-panel></app-panel>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="300" id="consultoriaCheck"
+                (click)="checker('consultoriaCheck')">
+            <label class="form-check-label" for="flexCheckChecked">
+                Una consultoria SEO (300 &euro;)
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="200" id="googleAdsCheck"
+                (click)="checker('googleAdsCheck')">
+            <label class="form-check-label" for="flexCheckDefault">
+                Una campanya de Google Ads &reg; (200 &euro;)
+            </label>
+        </div>
+        <p class="card-text">Preu: {{realFinal}}</p>
+        <div class="justify-content-center">
+            <button class="btn col-12 mx-auto btn-dark btn-submit">submit</button>
+        </div>
+    </div>
+</div>

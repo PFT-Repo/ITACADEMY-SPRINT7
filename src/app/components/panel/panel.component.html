@@ -1,0 +1,65 @@
+<form class="panelito py-5 px-1  g-2 align-content-center">
+    <div class="row mx-auto align-items-center justify-content-center">
+        <div class="col-auto">
+            <label for="inputPassword6" class="col-form-label">número de páginas</label>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-light" (click)="sumaPag()">+</button>
+        </div>
+        <div class="col-auto"><input type="number" id="numPags" class=" form-control" value="{{numPag}}"
+                aria-describedby="passwordHelpInline"></div>
+        <div class="col-auto"> <button class="btn btn-light" (click)="restaPag()">-</button></div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <img src="assets/icons/info.svg" width="20" />
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center align-items-center">
+                            En este componente debe especificar la cantidad de paginas que tendrá su web.
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mx-auto mt-3 align-items-center justify-content-center">
+        <div class="col-auto">
+            <label for="inputPassword6" class="col-form-label">número de idiomas</label>
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-light" (click)="sumaIdio()">+</button>
+        </div>
+        <div class="col-auto">
+            <input type="number" id="numIdio" class="form-control" value='{{numIdio}}'
+                aria-describedby="passwordHelpInline">
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-light" (click)="restaIdio()">-</button>
+        </div>
+        <div class="col-auto">
+            <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                <img src="assets/icons/info.svg" width="20" />
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog  modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center align-items-center">
+                            En este componente debe especificar la cantidad de idiomas que tendrá su web.
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
