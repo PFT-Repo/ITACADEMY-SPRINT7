@@ -9,43 +9,36 @@ import { TotalAmountService } from 'src/app/total-amount.service';
 })
 export class PanelComponent implements OnInit {
 
-  constructor(private serve : TotalAmountService) { }
+  constructor(private serve: TotalAmountService) { }
   numPag: number = 1;
   numIdio: number = 1;
   ngOnInit(): void {
-    this.sendPrice(this.pPT);
+    this.sendPrice(4, this.numPag);
+    this.sendPrice(5, this.numIdio);
   }
-  pPT= this.numPag * this.numIdio* 30;
+  pPT = this.serve.getppt() * 30;
 
   sumaPag() {
     this.numPag += 1;
-    this.sendPrice(this.pPT);
-    console.log(this.pPT);
-    console.log("suma");
+    this.sendPrice(4, this.numPag);
   }
   sumaIdio() {
     this.numIdio += 1;
-    this.sendPrice(this.pPT);
-    console.log("suma");
+    this.sendPrice(5, this.numIdio);
   }
   restaPag() {
-    this.sendPrice(this.pPT*-1);
+    this.sendPrice(4, this.numPag);
     this.numPag -= 1;
-    if(this.numPag<1){this.numPag=1}
-    this.sendPrice(this.pPT);
-    console.log("resta");
+    if (this.numPag < 1) { this.numPag = 1 }
   }
   restaIdio() {
-    this.sendPrice(this.pPT*-1);
+    this.sendPrice(5, this.numIdio);
     this.numIdio -= 1;
-    if(this.numIdio<1){this.numIdio=1}
-    this.sendPrice(this.pPT);
-    console.log("resta");
+    if (this.numIdio < 1) { this.numIdio = 1 }
   }
 
-  sendPrice(number:number){
-    console.log("añadiendo " +number)
-    this.serve.addPrice(number)
+  sendPrice(index: number, number: number) {
+    this.serve.addPrice(index, number)
   }
 
 }
