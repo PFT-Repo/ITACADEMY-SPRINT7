@@ -1,42 +1,60 @@
-<div class="mx-auto w-100">
-    <div class="container-fluid">
+<div class="container-fluid">
+    <div class="cover-container">
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid text-center">
                 <a class="navbar-brand" href="">Volver</a>
             </div>
         </nav>
     </div>
-    <div class="card mx-auto mt-5" style="width: 50rem;">
-        <div class="card-body">
-            <h5 class="card-title">¿ Que quieres hacer ?</h5>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="500" id="paginaWebCheck"
-                    (click)="checker('paginaWebCheck')">
-                <label class="form-check-label" for="flexCheckDefault">
-                    Una pàgina web (500 &euro;)
-                </label>
-            </div>
-            <div *ngIf="activePanel == true">
-                <app-panel></app-panel>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="300" id="consultoriaCheck"
-                    (click)="checker('consultoriaCheck')">
-                <label class="form-check-label" for="flexCheckChecked">
-                    Una consultoria SEO (300 &euro;)
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="200" id="googleAdsCheck"
-                    (click)="checker('googleAdsCheck')">
-                <label class="form-check-label" for="flexCheckDefault">
-                    Una campanya de Google Ads &reg; (200 &euro;)
-                </label>
-            </div>
-            <p class="card-text" id="precioPublico"><strong> Preu: {{realFinal}}</strong></p>
-            <div class="justify-content-center">
-                <button class="btn col-12 mx-auto btn-dark btn-submit">submit</button>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card mx-auto mt-5">
+                <div class="card-body">
+                    <h5 class="card-title">¿ Que quieres hacer ?</h5>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="500" id="paginaWebCheck" [routerLink]="['/home']" [queryParams]="{'web': webs}" 
+                            (click)="checker('paginaWebCheck')">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Una pàgina web (500 &euro;)
+                        </label>
+                    </div>
+                    <div *ngIf="activePanel == true">
+                        <app-panel></app-panel>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="300" id="consultoriaCheck"
+                            (click)="checker('consultoriaCheck')">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            Una consultoria SEO (300 &euro;)
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="200" id="googleAdsCheck"
+                            (click)="checker('googleAdsCheck')">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Una campanya de Google Ads &reg; (200 &euro;)
+                        </label>
+                    </div>
+                    <div *ngIf="activePanel == true">
+                        <p class="card-text" id="precioPublico"><strong>Preu: {{realFinal}}</strong></p>
+                    </div>
+                    <div *ngIf="!activePanel">
+                        <p class="card-text" id="precioPublico"><strong>Preu: {{realFinal}}</strong></p>
+                    </div>
+                    <div class="justify-content-center">
+                        <button class="btn col-12 mx-auto btn-dark btn-submit" (click)="submit()">submit</button>
+                    </div>
+                </div>
             </div>
         </div>
+        <div *ngIf="listActive == true"class="col-6">
+                <app-presupuestos-list>
+
+                </app-presupuestos-list>
+        </div>
+
     </div>
+
+
+
 </div>

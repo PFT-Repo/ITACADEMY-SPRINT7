@@ -1,5 +1,7 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { TotalAmountService } from 'src/app/total-amount.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { presupostI } from 'src/app/interfaces/presupost-i';
+import { TotalAmountService } from 'src/app/services/total-amount.service';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +11,20 @@ import { TotalAmountService } from 'src/app/total-amount.service';
 export class HomeComponent implements OnInit, OnChanges{
   preuFinal:number = 0;
   in:number = 0;
-  realFinal:number= this.serve.getTotal();
+  listActive:boolean=false;
+  realFinal:number=0;
+  u= this.serve.getAllPresupost(); 
+  ppt:presupostI={ web:false,
+    seo:false,
+    ads:false,
+    npgs:0,
+    nid:0}
+
+    webs:string|null= String(this.ppt.web);
   activePanel = false;
   preciofinal = document.getElementById('precioPublico');
-  constructor(private serve:TotalAmountService) { 
+  constructor(private serve:TotalAmountService, private route: ActivatedRoute) { 
+    this.realFinal= this.serve.getTotal();
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.realFinal= this.serve.getTotal();
@@ -20,13 +32,26 @@ export class HomeComponent implements OnInit, OnChanges{
   }
 
   ngOnInit() {
+    console.log("---------------------------------"+this.webs+"------------------------------------")
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.webs = params.get('web');
+    });
+
     this.serve.langUpdated.subscribe(
       () => {
-        this.realFinal= this.serve.getTotal();
+       this.updateReal();
       }
     );
+      if (this.u[0] != null){
+        console.log(this.u);
+        this.listActive=true;
+      }
   }
-  ngAfterViewInit(){
+
+  ngOnChange(){
+       this.updateReal();
+  }
+  updateReal(){
     this.realFinal= this.serve.getTotal();
   }
   checker(id: string) {
@@ -34,20 +59,20 @@ export class HomeComponent implements OnInit, OnChanges{
       id,
     ) as HTMLInputElement | null;
     if (checkbox) {
-      if(id=='paginaWebCheck'){this.in = 0}
-      if(id=='consultoriaCheck'){this.in = 1}
-      if(id=='googleAdsCheck'){this.in = 2}
+      if(id=='paginaWebCheck'){this.in = 0; this.serve.web=true}
+      if(id=='consultoriaCheck'){this.in = 1; this.serve.seo=true}
+      if(id=='googleAdsCheck'){this.in = 2; this.serve.ads=true}
       let valor = parseInt(checkbox.value);
       if (checkbox?.checked) {
-        if(id == 'paginaWebCheck'){
+        if(id == 'paginaWebCheck'){ 
          this.activePanel=true;
-         this.realFinal= this.serve.getTotal();
-         if(this.preciofinal){this.preciofinal.innerText="Preu: {{realFinal}}";}
-         
-      }
+         // setTimeout(() => this.updateReal(),1);
+      } 
+
         this.preuFinal += valor;
         this.sendPrices(this.in,valor)
-        this.realFinal = this.serve.getTotal();
+        this.updateReal();
+      
       } else {
         if(id == 'paginaWebCheck'){
           this.activePanel=false;
@@ -66,7 +91,9 @@ export class HomeComponent implements OnInit, OnChanges{
     this.serve.addPrice(index,number);
   }
   submit() {
-
+    let w:presupostI = this.serve.getData();
+    this.serve.addToList(w);
+    this.listActive=true;
     console.log(this.preuFinal);
   }
 }

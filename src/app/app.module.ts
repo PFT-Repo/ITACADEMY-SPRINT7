@@ -6,15 +6,17 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TotalAmountService } from './total-amount.service';
+import { TotalAmountService } from './services/total-amount.service';
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
+import { PresupuestosListComponent } from './components/presupuestos-list/presupuestos-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     PanelComponent,
-    BienvenidaComponent
+    BienvenidaComponent,
+    PresupuestosListComponent
   ],
   imports: [
     BrowserModule,
