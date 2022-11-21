@@ -18,22 +18,26 @@ export class HomeComponent implements OnInit, OnChanges {
   u = this.serve.getAllPresupost();
   nom = document.getElementById('clienteInput') as HTMLInputElement | null;
   ppt: presupostI = {
-    nombre:'p1',
+    nombre: 'p1',
     cliente: '',
     web: false,
     seo: false,
     ads: false,
     npgs: 0,
-    nid: 0
+    nid: 0,
+    date: new Date(),
+    valor: 0
   }
+  listaFinal: any[] = [];
 
   webs: string | null = String(this.ppt.web);
   activePanel = false;
   preciofinal = document.getElementById('precioPublico');
-  constructor(private router: Router, private serve: TotalAmountService, private route: ActivatedRoute) {
+  constructor(private router: Router, public serve: TotalAmountService, private route: ActivatedRoute) {
     this.realFinal = this.serve.getTotal();
     this.myMethodChangingQueryParams();
-   }
+    this.listaFinal = this.serve.getAllPresupost();
+  }
   myMethodChangingQueryParams() {
     const queryParams = {
       paginaWeb: this.serve.web,
@@ -53,6 +57,7 @@ export class HomeComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.realFinal = this.serve.getTotal();
     this.myMethodChangingQueryParams();
+    this.listaFinal = this.serve.getAllPresupost();
     throw new Error('Method not implemented.');
   }
 
@@ -63,16 +68,40 @@ export class HomeComponent implements OnInit, OnChanges {
         this.updateReal();
       }
     );
+   
     if (this.u[0] != null) {
-      console.log(this.u);
-      this.listActive = true;
+      this.listaFinal = this.serve.getAllPresupost();
+      console.log(this.listaFinal)
+      this.serve.listaActive = true;
+      
     }
-    this.myMethodChangingQueryParams();
+
+   
+    this.route.queryParams.subscribe(map => map);
+    console.log(this.route.snapshot.queryParams);
+     
+    this.serve.web = (this.route.snapshot.paramMap.get('paginaWeb')=="true");
+    this.serve.seo = (this.route.snapshot.paramMap.get('campaniaSeo')=="true");
+    this.serve.ads = (this.route.snapshot.paramMap.get('campaniaAds')=="true");
+    let r = this.route.snapshot.queryParamMap.get('nPaginas');
+   
+    let o = this.route.snapshot.queryParamMap.get('nIdiomas');
+     if (r!= null && o !=null)
+     { 
+      if(parseInt(r)>=1 && parseInt(o)>=1)
+          {
+            this.activePanel = true;
+          }
+          this.sendPrices(4, parseInt(r));
+          this.sendPrices(5, parseInt(o));
+    }
+       this.myMethodChangingQueryParams();
   }
 
   ngOnChange() {
     this.updateReal();
     this.myMethodChangingQueryParams();
+    this.listaFinal = this.serve.getAllPresupost();
   }
 
 
@@ -81,7 +110,7 @@ export class HomeComponent implements OnInit, OnChanges {
     this.myMethodChangingQueryParams();
   }
   checker(id: string) {
-    let checkbox = document.getElementById(id ) as HTMLInputElement | null;
+    let checkbox = document.getElementById(id) as HTMLInputElement | null;
     if (checkbox) {
       if (id == 'paginaWebCheck') { this.in = 0; this.serve.web = true }
       if (id == 'consultoriaCheck') { this.in = 1; this.serve.seo = true }
@@ -99,10 +128,18 @@ export class HomeComponent implements OnInit, OnChanges {
 
       } else {
         if (id == 'paginaWebCheck') {
+          this.serve.web = false;
           this.activePanel = false;
           this.sendPrices(4, 0);
           this.sendPrices(5, 0);
           this.realFinal = this.serve.getTotal();
+        }
+        else if (id == 'consultoriaCheck') {
+          this.serve.seo = false;
+        }
+        else if (id == 'googleAdsCheck') {
+          this.serve.ads = false;
+
         }
         this.sendPrices(this.in, 0);
         this.preuFinal -= valor;
@@ -111,15 +148,50 @@ export class HomeComponent implements OnInit, OnChanges {
     }
   }
   sendPrices(index: number, number: number) {
-    console.log("enviando " + number)
     this.serve.addPrice(index, number);
+  }
+  resetForm() {
+    let y = (<HTMLInputElement>document.getElementById("clienteInput"));
+    y.value = '';
+    let p = (<HTMLInputElement>document.getElementById("proyectoInput"));
+    p.value = '';
+    let c = 0
+    let ids: any[] = ['paginaWebCheck', 'consultoriaCheck', 'googleAdsCheck'];
+    while (c < ids.length) {
+      console.log(ids[c]);
+      let checkbox = document.getElementById(ids[c]) as HTMLInputElement | null;
+      if (ids[c] == 'paginaWebCheck') {
+        this.serve.web = false;
+      }
+      else if (ids[c] == 'consultoriaCheck') {
+        this.serve.seo = false;
+      }
+      else if (ids[c] == 'googleAdsCheck') {
+        this.serve.ads = false;
+
+      }
+      if (checkbox != null) {
+        checkbox.checked = false;
+      }
+      this.sendPrices(c, 0);
+      c++;
+    }
+    this.activePanel = false;
+    this.sendPrices(4, 0);
+    this.sendPrices(5, 0);
+
   }
   submit() {
     let y = (<HTMLInputElement>document.getElementById("clienteInput")).value;
+    let p = (<HTMLInputElement>document.getElementById("proyectoInput")).value;
     this.serve.pushClient(y);
+    this.serve.pushProyect(p);
     let w: presupostI = this.serve.getData();
     this.serve.addToList(w);
-    this.listActive = true;
-    console.log(this.preuFinal);
+    this.listaFinal = this.serve.getAllPresupost();
+    console.log(this.listaFinal);
+    
+    this.serve.listaActive = true;
+    this.resetForm();
   }
 }

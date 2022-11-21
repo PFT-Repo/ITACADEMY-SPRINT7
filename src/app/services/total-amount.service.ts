@@ -6,18 +6,20 @@ import { presupostI } from '../interfaces/presupost-i';
 })
 export class TotalAmountService {
   constructor() { }
+  listaActive:boolean = false;
+  x:number =1;
   web=false;
+  list: any[]=[]
   seo=false;
   ads=false;
   name:string='' ;
   client: string | undefined;
   langUpdated = new EventEmitter();
+  listUpdate = new EventEmitter();
   private plata: any[] = [0, 0, 0, 0, 0, 0,'',''];
   private presupost:presupostI[]=[];
   i:number=1;
   getTotal() {
-    console.log("funcionó hasta acá");
-    console.log(this.plata);
     let upd = this.plata.slice(0, 3)
     let res = upd.reduce(
       (previousValue, currentValue) => previousValue + currentValue,
@@ -41,7 +43,6 @@ export class TotalAmountService {
 
     this.plata.splice(index, 1, number);
     this.langUpdated.emit(this.plata);
-    console.log(this.plata);
   }
   getppt() {
     let y = this.plata[4]
@@ -49,35 +50,52 @@ export class TotalAmountService {
     return y + u;
   }
   addToList(p:presupostI){
-    console.log(p);
     this.presupost.push(p)
     localStorage.setItem('list'+this.i,JSON.stringify(p))
+    console.log(this.i);
+    
     this.i++;
   }
   pushClient(s:string):void{
-    console.log(s);
     this.plata.splice(6,1,s);
+  }
+  pushProyect(s:string):void{
+    this.plata.splice(7,1,s);
   }
 getData():presupostI{
   if(this.plata[4]== 0||this.plata[5]== 0){
     this.web=false
   }
-  let ppt:presupostI={nombre: this.name ,cliente: this.plata[6], web: this.web,
+  let ppt:presupostI={nombre: this.plata[7] ,cliente: this.plata[6], web: this.web,
     seo:this.seo,
     ads:this.ads,
     npgs:this.plata[4],
-    nid:this.plata[5]
+    nid:this.plata[5],
+    date: new Date(),
+    valor:this.getTotal()
   }
   return ppt;
 }
-  getAllPresupost(){
-    let x=1;
-    let list=[]
-    while(x<=this.i){
-      list[x-1]=localStorage.getItem('list'+x);
-      x++;
-    }
-    console.log(list);
-    return list;
+getAllPresupost(){
+  let x =1
+  while(x<this.i){
+    this.list[x-1]=localStorage.getItem('list'+x);
+  x++;
   }
+  console.log(this.list);
+  this.listUpdate.emit(this.list);
+  return this.list;
+}
+eraseAllPresupost(){
+ let x=1;
+  while(this.i>0){
+    localStorage.removeItem('list'+x);
+    x++;
+    this.i--;
+  }
+  this.list = [];
+  this.i=1
+  localStorage.clear();
+  localStorage.clear();
+}
 }

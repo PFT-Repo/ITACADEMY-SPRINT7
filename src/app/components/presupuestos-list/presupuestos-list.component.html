@@ -2,10 +2,28 @@
     <div class=" justify-content-center">
             <div class="card mx-auto mt-5">
                 <div class="card-body">
+                    <div class="row ">
+                        <div class="col-4"><button class="btn col-12 mx-auto btn-dark btn-submit" (click)="ordenAlfa()">A-Z</button></div>
+                        <div class="col-4"><button class="btn col-12 mx-auto btn-dark btn-submit" (click)="orderFecha()">Fecha</button></div>
+                        <div class="col-4"><button class="btn col-12 mx-auto btn-dark btn-submit" (click)="orderReset()">Default</button></div>
+                    </div>
                     <h5 class="card-title"> Lista de projectos </h5>
+                    <ul *ngFor="let p of listaJson; index as i;">
+                        <li>
+                           El proyecto {{p.nombre}} para el cliente {{p.cliente}}, desea:
+                           web: {{p.web}}, 
+                            Seo: {{p.seo}}, 
+                            Ads: {{p.ads}}, 
+                            Con {{p.npgs}} páginas
+                            en {{p.nid}} idiomas
+                            solicitado el: {{p.date}}.
+
+                            Cuesta: {{p.valor}} &euro;.
+                         </li>
+                    </ul>
                     
                     <div class="justify-content-center">
-                        <button class="btn col-12 mx-auto btn-dark btn-submit">submit</button>
+                        <button class="btn col-12 mx-auto btn-dark btn-submit" (click)="borrar()">Borrar Presupuestos</button>
                     </div>
                 </div>
             </div>
