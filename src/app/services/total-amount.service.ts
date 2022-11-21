@@ -52,7 +52,6 @@ export class TotalAmountService {
   addToList(p:presupostI){
     this.presupost.push(p)
     localStorage.setItem('list'+this.i,JSON.stringify(p))
-    console.log(this.i);
     
     this.i++;
   }
@@ -82,7 +81,6 @@ getAllPresupost(){
     this.list[x-1]=localStorage.getItem('list'+x);
   x++;
   }
-  console.log(this.list);
   this.listUpdate.emit(this.list);
   return this.list;
 }
