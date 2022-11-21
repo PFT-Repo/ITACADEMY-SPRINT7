@@ -9,9 +9,10 @@ export class TotalAmountService {
   web=false;
   seo=false;
   ads=false;
-
+  name:string='' ;
+  client: string | undefined;
   langUpdated = new EventEmitter();
-  private plata: number[] = [0, 0, 0, 0, 0, 0];
+  private plata: any[] = [0, 0, 0, 0, 0, 0,'',''];
   private presupost:presupostI[]=[];
   i:number=1;
   getTotal() {
@@ -23,13 +24,17 @@ export class TotalAmountService {
       0
     );
     let y = this.plata[4]
-    console.log(this.plata[4])
     let u = this.plata[5]
-    console.log(this.plata[5])
     let w = y * u * 30;
-    console.log(w);
-
     return res + w;
+  }
+  getPag():string{
+    let b = this.plata[4];
+    return b.toString();
+  }
+  getIdi():string{
+    let b = this.plata[5];
+    return b.toString();
   }
 
   addPrice(index: number, number: number) {
@@ -49,11 +54,15 @@ export class TotalAmountService {
     localStorage.setItem('list'+this.i,JSON.stringify(p))
     this.i++;
   }
+  pushClient(s:string):void{
+    console.log(s);
+    this.plata.splice(6,1,s);
+  }
 getData():presupostI{
   if(this.plata[4]== 0||this.plata[5]== 0){
     this.web=false
   }
-  let ppt:presupostI={ web: this.web,
+  let ppt:presupostI={nombre: this.name ,cliente: this.plata[6], web: this.web,
     seo:this.seo,
     ads:this.ads,
     npgs:this.plata[4],

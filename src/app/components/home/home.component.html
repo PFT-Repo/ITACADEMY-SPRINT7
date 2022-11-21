@@ -12,7 +12,14 @@
                 <div class="card-body">
                     <h5 class="card-title">¿ Que quieres hacer ?</h5>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="500" id="paginaWebCheck" [routerLink]="['/home']" [queryParams]="{'web': webs}" 
+ 
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="clienteInput" placeholder="Cliente" aria-label="clienteInput" aria-describedby="basic-addon1"
+                            >
+                            <label for="clienteInput">Cliente</label>
+                          </div>
+
+                        <input class="form-check-input" type="checkbox" value="500" id="paginaWebCheck" 
                             (click)="checker('paginaWebCheck')">
                         <label class="form-check-label" for="flexCheckDefault">
                             Una pàgina web (500 &euro;)
