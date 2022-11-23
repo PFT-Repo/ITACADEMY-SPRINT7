@@ -19,7 +19,7 @@ import {Observable} from "rxjs";
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"],
 })
-export class HomeComponent implements OnInit, OnChanges, DoCheck {
+export class HomeComponent implements OnInit, OnChanges{
   preuFinal: number = 0;
   in: number = 0;
   listActive: boolean = false;
@@ -101,7 +101,6 @@ export class HomeComponent implements OnInit, OnChanges, DoCheck {
     this.realFinal = this.serve.getTotal();
     this.myMethodChangingQueryParams();
     this.listaFinal = this.serve.getAllPresupost();
-    this.ngDoCheck();
     throw new Error("Method not implemented.");
   }
 
@@ -116,22 +115,12 @@ export class HomeComponent implements OnInit, OnChanges, DoCheck {
     }
   }
 
-  ngDoCheck() {
-    let y = <HTMLInputElement>document.getElementById("clienteInput");
-    let p = <HTMLInputElement>document.getElementById("proyectoInput");
-    if ((y.value, p.value) != "") {
-      this.canSubmit = true;
-    } else {
-      this.canSubmit = false;
-    }
-  }
-
+  
   ngOnChange() {
     this.updateReal();
     this.myMethodChangingQueryParams();
     this.listaFinal = this.serve.getAllPresupost();
-    this.ngDoCheck();
-  }
+   }
   cheche(): boolean {
     let y = <HTMLInputElement>document.getElementById("clienteInput");
     let p = <HTMLInputElement>document.getElementById("proyectoInput");
@@ -172,7 +161,6 @@ export class HomeComponent implements OnInit, OnChanges, DoCheck {
         this.preuFinal += valor;
         this.sendPrices(this.in, valor);
         this.updateReal();
-        this.ngDoCheck();
       } else {
         if (id == "paginaWebCheck") {
           this.serve.web = false;
@@ -188,7 +176,6 @@ export class HomeComponent implements OnInit, OnChanges, DoCheck {
         this.sendPrices(this.in, 0);
         this.preuFinal -= valor;
         this.realFinal = this.serve.getTotal();
-        this.ngDoCheck();
       }
     }
   }
@@ -224,8 +211,7 @@ export class HomeComponent implements OnInit, OnChanges, DoCheck {
   submit() {
     if (this.cheche() == true) {
       let y = (<HTMLInputElement>document.getElementById("clienteInput")).value;
-      let p = (<HTMLInputElement>document.getElementById("proyectoInput"))
-        .value;
+      let p = (<HTMLInputElement>document.getElementById("proyectoInput")).value;
       this.serve.pushClient(y);
       this.serve.pushProyect(p);
       let w: presupostI = this.serve.getData();
@@ -233,6 +219,9 @@ export class HomeComponent implements OnInit, OnChanges, DoCheck {
       this.listaFinal = this.serve.getAllPresupost();
       this.serve.listaActive = true;
       this.resetForm();
+    }
+    else{
+      alert('Recuerda colocar el Nombre del proyecto y del cliente para generar el presupuesto.');
     }
   }
 }

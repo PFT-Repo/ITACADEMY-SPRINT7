@@ -6,6 +6,6 @@ export interface presupostI {
     ads:boolean;
     npgs:number;
     nid:number;
-    date:Date;
+    date:string;
     valor:number;
 }

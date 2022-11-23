@@ -1,4 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import dateFormat, { masks } from "dateformat";
 import { presupostI } from '../interfaces/presupost-i';
 
 @Injectable({
@@ -6,6 +7,7 @@ import { presupostI } from '../interfaces/presupost-i';
 })
 export class TotalAmountService {
   constructor() { }
+
   listaActive:boolean = false;
   x:number =1;
   web=false;
@@ -70,7 +72,7 @@ getData():presupostI{
     ads:this.ads,
     npgs:this.plata[4],
     nid:this.plata[5],
-    date: new Date(),
+    date: dateFormat(new Date(), "d-m-yyyy"),
     valor:this.getTotal()
   }
   return ppt;
