@@ -1,0 +1,104 @@
+<div class="container-fluid">
+  <div class="justify-content-center">
+    <div class="card mx-auto mt-5">
+      <div class="card-body">
+        <div class="justify-content-center">
+          <div class="input-group">
+            <div class="w-100 form-outline row ">
+              <div class="form-floating mb-3 col-8">
+                <input
+                  type="search"
+                  class="form-control"
+                  id="searchInput"
+                  aria-label="searchInput"
+                  aria-describedby="basic-addon1"
+                />
+                <label for="searchInput">Busca por Nombre </label>
+              </div>
+              <button type="button" class="btn btn-dark col-4 mb-3" (click)="search()">
+                <i>🔎</i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <button
+              class="btn col-12 mx-auto btn-dark btn-submit"
+              (click)="ordenAlfa()"
+            >
+              A-Z
+            </button>
+          </div>
+          <div class="col-4">
+            <button
+              class="btn col-12 mx-auto btn-dark btn-submit"
+              (click)="orderFecha()"
+            >
+              Fecha
+            </button>
+          </div>
+          <div class="col-4">
+            <button
+              class="btn col-12 mx-auto btn-dark btn-submit"
+              (click)="orderReset()"
+            >
+              Default
+            </button>
+          </div>
+        </div>
+        <h5 class="card-title">Lista de projectos</h5>
+        <div *ngIf="this.listDefault == true">
+          <ul *ngFor="let p of listaJson; index as i">
+            <li>
+              El proyecto {{ p.nombre }} para el cliente {{ p.cliente }}, desea:
+              web: {{ p.web }}, Seo: {{ p.seo }}, Ads: {{ p.ads }}, Con
+              {{ p.npgs }} páginas en {{ p.nid }} idiomas solicitado el:
+              {{ p.date }}. Cuesta: {{ p.valor }} &euro;.
+            </li>
+          </ul>
+        </div>
+
+        <div *ngIf="this.listAlfa == true">
+          <ul *ngFor="let p of listfiltredb; index as i">
+            <li>
+              El proyecto {{ p.nombre }} para el cliente {{ p.cliente }}, desea:
+              web: {{ p.web }}, Seo: {{ p.seo }}, Ads: {{ p.ads }}, Con
+              {{ p.npgs }} páginas en {{ p.nid }} idiomas solicitado el:
+              {{ p.date }}. Cuesta: {{ p.valor }} &euro;.
+            </li>
+          </ul>
+        </div>
+
+        <div *ngIf="this.listDate == true">
+          <ul *ngFor="let p of listfiltredc; index as i">
+            <li>
+              El proyecto {{ p.nombre }} para el cliente {{ p.cliente }}, desea:
+              web: {{ p.web }}, Seo: {{ p.seo }}, Ads: {{ p.ads }}, Con
+              {{ p.npgs }} páginas en {{ p.nid }} idiomas solicitado el:
+              {{ p.date }}. Cuesta: {{ p.valor }} &euro;.
+            </li>
+          </ul>
+        </div>
+        <div *ngIf="this.listSearch == true">
+          <ul *ngFor="let p of listfiltredd; index as i">
+            <li>
+              El proyecto {{ p.nombre }} para el cliente {{ p.cliente }}, desea:
+              web: {{ p.web }}, Seo: {{ p.seo }}, Ads: {{ p.ads }}, Con
+              {{ p.npgs }} páginas en {{ p.nid }} idiomas solicitado el:
+              {{ p.date }}. Cuesta: {{ p.valor }} &euro;.
+            </li>
+          </ul>
+        </div>
+        <div class="justify-content-center">
+          <button
+            class="btn col-12 mx-auto btn-dark btn-submit"
+            (click)="borrar()"
+          >
+            Borrar Presupuestos
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
