@@ -90,6 +90,7 @@ export class PresupuestosListComponent implements OnInit, OnChanges {
     let y =this.listfiltreda.filter(array => array.nombre == h.value);
     if(y[0]==null){
       alert("no hay presupuestos con ese nombre");
+      this.listfiltredd = this.listfiltreda;
     }
     else{
       this.listfiltredd = y;

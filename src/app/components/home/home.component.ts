@@ -105,6 +105,7 @@ export class HomeComponent implements OnInit, OnChanges{
   }
 
   ngOnInit() {
+    this.firstLoad();
     this.serve.langUpdated.subscribe(() => {
       this.updateReal();
     });
